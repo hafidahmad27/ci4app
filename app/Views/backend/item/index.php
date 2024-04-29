@@ -28,12 +28,14 @@
                             <td><?= number_format($items['price'], 0, ',', '.'); ?></td>
                             <td align="justify"><?= $items['description']; ?></td>
                             <td width="12%" align="center">
-                                <button type="button" class="btn btn-primary btn-sm btnEditItem" data-id="<?= $items['id'] ?>" data-toggle="modal" data-target="#staticBackdrop"><i class=" nav-icon fas fa-edit"></i></button> |
-                                <form action="<?= url_to('backend.item.delete'); ?>" method="post" class="d-inline" id="post-delete">
-                                    <?= csrf_field(); ?>
-                                    <input type="hidden" name="id" value="<?= $items['id'] ?>">
-                                    <button type="submit" class="btn btn-danger btn-sm"><i class="nav-icon fas fa-trash"></i></button>
-                                </form>
+                                <button type="button" class="btn btn-primary btn-sm btnEditItem" data-id="<?= $items['id'] ?>" data-toggle="modal" data-target="#staticBackdrop"><i class=" nav-icon fas fa-edit"></i></button>
+                                <?php if (session()->get('level') == 'superadmin') : ?>
+                                    <form action="<?= url_to('backend.item.delete'); ?>" method="post" class="d-inline"> |
+                                        <?= csrf_field(); ?>
+                                        <input type="hidden" name="id" value="<?= $items['id'] ?>">
+                                        <button type="submit" class="btn btn-danger btn-sm"><i class="nav-icon fas fa-trash"></i></button>
+                                    </form>
+                                <?php endif ?>
                             </td>
                         </tr>
                     <?php endforeach; ?>

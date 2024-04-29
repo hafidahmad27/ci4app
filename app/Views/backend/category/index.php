@@ -25,12 +25,14 @@
                                 </td>
                                 <td width="15%" align="center">
                                     <input type="hidden" name="id" value="<?= $categories['id'] ?>">
-                                    <button type="submit" class="btn btn-primary btn-sm"><i class="nav-icon fas fa-sync"></i> Update</button> |
+                                    <button type="submit" class="btn btn-primary btn-sm"><i class="nav-icon fas fa-sync"></i> Update</button>
                             </form>
-                            <form action="<?= url_to('backend.category.delete'); ?>" method="post" class="d-inline">
-                                <input type="hidden" name="id" value="<?= $categories['id'] ?>">
-                                <button type="submit" class="btn btn-danger btn-sm"><i class="nav-icon fas fa-trash"></i></button>
-                            </form>
+                            <?php if (session()->get('level') == 'superadmin') : ?>
+                                <form action="<?= url_to('backend.category.delete'); ?>" method="post" class="d-inline"> |
+                                    <input type="hidden" name="id" value="<?= $categories['id'] ?>">
+                                    <button type="submit" class="btn btn-danger btn-sm"><i class="nav-icon fas fa-trash"></i></button>
+                                </form>
+                            <?php endif ?>
                             </td>
                         </tr>
                     <?php endforeach; ?>

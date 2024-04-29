@@ -71,7 +71,7 @@ class Category extends BaseController
                 ],
             ],
         ]);
-        // dd($data);
+
         if ($this->validation->run($data)) {
             $this->categoryModel->update($id, $data);
             return redirect()->back()->with('message', '<div class="alert alert-success alert-dismissible fade show" role="alert"><strong>Nama Kategori di-update menjadi "' . $data['category_name'] . '" </strong> <i class="fas fa-check-circle"></i></div>');

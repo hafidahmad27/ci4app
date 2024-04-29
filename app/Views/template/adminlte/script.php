@@ -54,28 +54,12 @@
             "autoWidth": false,
             // "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
         }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-        $('#example2').DataTable({
-            "paging": true,
-            "lengthChange": false,
-            "searching": false,
-            "ordering": true,
-            "info": true,
-            "autoWidth": false,
-            "responsive": true,
-        });
     });
 </script>
 
 <!-- External JavaScript Files Loader -->
 <script src="<?= base_url(); ?>assets/external-files/js/formEditItem.js"></script>
 <script src="<?= base_url(); ?>assets/external-files/js/formEditUser.js"></script>
-
-<script>
-    // $('#example1').on('search.dt', function() {
-    //     var value = $('.dataTables_filter input').val();
-    //     console.log(value); // <-- the value
-    // });
-</script>
 
 <script>
     // current active menu after load

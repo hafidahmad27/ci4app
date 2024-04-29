@@ -49,7 +49,7 @@
                 <?= session()->getFlashdata('message-password') ?>
                 <div class="form-group">
                     <label>Password</label>
-                    <input type="password" name="password" class="form-control" placeholder="Masukkan password baru..">
+                    <input type="password" name="password" class="form-control" placeholder="Masukkan password baru.." required>
                 </div>
                 <button type="submit" class="btn btn-primary mt-3"><i class="fas fa-sync"></i>&nbsp; Ubah Password</button>
             </div>

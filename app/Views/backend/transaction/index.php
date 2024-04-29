@@ -25,8 +25,8 @@
                         <td></td>
                         <td align="justify"></td>
                         <td width="12%" align="center">
-                            <button type="button" class="btn btn-primary btn-sm btnEditItem"><i class=" nav-icon fas fa-edit"></i></button> |
-                            <form action="" method="post" class="d-inline">
+                            <button type="button" class="btn btn-primary btn-sm btnEditItem"><i class=" nav-icon fas fa-edit"></i></button>
+                            <form action="" method="post" class="d-inline"> |
                                 <?= csrf_field(); ?>
                                 <input type="hidden" name="id" value="">
                                 <button type="submit" class="btn btn-danger btn-sm"><i class="nav-icon fas fa-trash"></i></button>

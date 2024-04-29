@@ -46,20 +46,22 @@
                                     <form action="<?= url_to('backend.user.userStatus'); ?>" method="post" class="d-inline">
                                         <input type="hidden" name="id" value="<?= $users['id'] ?>">
                                         <?php if ($users['is_active'] == 1) { ?>
-                                            <button type="submit" class="btn btn-success btn-sm"><i class="fas fa-toggle-on"></i></button> |
+                                            <button type="submit" class="btn btn-success btn-sm"><i class="fas fa-toggle-on"></i></button>
                                         <?php } else { ?>
-                                            <button type="submit" class="btn btn-info btn-sm"><i class="fas fa-toggle-off"></i></button> |
+                                            <button type="submit" class="btn btn-info btn-sm"><i class="fas fa-toggle-off"></i></button>
                                         <?php } ?>
-                                    </form>
+                                    </form> |
                                     <button type="button" class="btn btn-primary btn-sm btnEditUser" data-id="<?= $users['id'] ?>" data-toggle="modal" data-target="#staticBackdrop">
                                         <i class=" nav-icon fas fa-edit"></i>
                                         <!--  -->
-                                    </button> |
-                                    <form action="<?= url_to('backend.user.delete'); ?>" method="post" class="d-inline">
-                                        <?= csrf_field(); ?>
-                                        <input type="hidden" name="id" value="<?= $users['id'] ?>">
-                                        <button type="submit" class="btn btn-danger btn-sm"><i class="nav-icon fas fa-trash"></i></button>
-                                    </form>
+                                    </button>
+                                    <?php if (session()->get('level') == 'superadmin') : ?>
+                                        <form action="<?= url_to('backend.user.delete'); ?>" method="post" class="d-inline"> |
+                                            <?= csrf_field(); ?>
+                                            <input type="hidden" name="id" value="<?= $users['id'] ?>">
+                                            <button type="submit" class="btn btn-danger btn-sm"><i class="nav-icon fas fa-trash"></i></button>
+                                        </form>
+                                    <?php endif ?>
                                 </td>
                             </tr>
                         <?php endif ?>
