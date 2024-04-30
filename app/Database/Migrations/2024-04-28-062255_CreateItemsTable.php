@@ -3,6 +3,7 @@
 namespace App\Database\Migrations;
 
 use CodeIgniter\Database\Migration;
+use CodeIgniter\Database\RawSql;
 
 class CreateItemsTable extends Migration
 {
@@ -24,6 +25,14 @@ class CreateItemsTable extends Migration
             ],
             'category_id' => [
                 'type'       => 'INT',
+            ],
+            'created_at' => [
+                'type' => 'TIMESTAMP',
+                'default' => new RawSql('CURRENT_TIMESTAMP'),
+            ],
+            'updated_at' => [
+                'type' => 'TIMESTAMP',
+                'default' => new RawSql('CURRENT_TIMESTAMP'),
             ],
         ]);
         $this->forge->addForeignKey('category_id', 'categories', 'id');

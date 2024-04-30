@@ -3,6 +3,7 @@
 namespace App\Database\Migrations;
 
 use CodeIgniter\Database\Migration;
+use CodeIgniter\Database\RawSql;
 
 class CreateUsersTable extends Migration
 {
@@ -29,6 +30,14 @@ class CreateUsersTable extends Migration
             'is_active' => [
                 'type'       => 'BOOLEAN',
                 'default'    => '1',
+            ],
+            'created_at' => [
+                'type' => 'TIMESTAMP',
+                'default' => new RawSql('CURRENT_TIMESTAMP'),
+            ],
+            'updated_at' => [
+                'type' => 'TIMESTAMP',
+                'default' => new RawSql('CURRENT_TIMESTAMP'),
             ],
         ]);
         $this->forge->createTable('users');

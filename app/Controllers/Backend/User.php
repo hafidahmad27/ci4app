@@ -26,7 +26,7 @@ class User extends BaseController
         $data = [
             'title' => 'Daftar User | HFD APP',
             'content_header' => 'Daftar User',
-            'table' => $this->userModel->findAll()
+            'table' => $this->userModel->orderBy('created_at', 'DESC')->findAll()
         ];
 
         return view('backend/user/index', $data);

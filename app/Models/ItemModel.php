@@ -21,7 +21,7 @@ class ItemModel extends Model
     // protected array $castHandlers = [];
 
     // Dates
-    // protected $useTimestamps = false;
+    protected $useTimestamps = true;
     // protected $dateFormat    = 'datetime';
     // protected $createdField  = 'created_at';
     // protected $updatedField  = 'updated_at';
@@ -52,7 +52,8 @@ class ItemModel extends Model
     public function getItems()
     {
         $builder = $this->db->table('categories')
-            ->join('items', 'items.category_id = categories.id');
+            ->join('items', 'items.category_id = categories.id')
+            ->orderBy('created_at', 'DESC');
 
         $query = $builder->get();
         return $query;

@@ -1,6 +1,6 @@
 $(".btnEditItem").on("click", function() {
     $('#staticBackdrop').on('shown.bs.modal', function() {
-        $('#name').trigger('focus');
+        $('#item_name').trigger('focus');
     });
 
     const id = $(this).data("id");
