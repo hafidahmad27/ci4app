@@ -7,7 +7,7 @@ use CodeIgniter\HTTP\ResponseInterface;
 
 class Report extends BaseController
 {
-    public function index()
+    public function a_reports()
     {
         $level = session()->get('level');
         if ($level != 'pimpinan' && $level != 'superadmin') {
@@ -15,10 +15,25 @@ class Report extends BaseController
         }
 
         $data = [
-            'title' => 'Report | HFD APP',
-            'content_header' => 'Report'
+            'title' => 'Report A | HFD APP',
+            'content_header' => 'Report A'
         ];
 
-        return view('backend/report/index', $data);
+        return view('backend/report/a_reports', $data);
+    }
+
+    public function b_reports()
+    {
+        $level = session()->get('level');
+        if ($level != 'pimpinan' && $level != 'superadmin') {
+            return redirect()->back();
+        }
+
+        $data = [
+            'title' => 'Report B | HFD APP',
+            'content_header' => 'Report B'
+        ];
+
+        return view('backend/report/b_reports', $data);
     }
 }

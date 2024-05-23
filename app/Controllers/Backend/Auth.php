@@ -28,7 +28,7 @@ class Auth extends BaseController
     {
         $username = $this->request->getPost('username');
         $password = $this->request->getVar('password');
-        $user = $this->userModel->where(['username' => $username])->first();
+        $user = $this->userModel->where('username', $username)->first();
 
         if ($user) {
             if ($user['is_active'] == 1) {
@@ -43,13 +43,13 @@ class Auth extends BaseController
                     session()->set($data);
                     return redirect()->route('backend.dashboard.view');
                 } else {
-                    return redirect()->back()->withInput()->with('error', 'Password salah!');
+                    return redirect()->back()->withInput()->with('error', '<b>Password salah!</b>');
                 }
             } else {
-                return redirect()->back()->with('error', 'User "' . $user['username'] . '" tidak aktif!');
+                return redirect()->back()->with('error', 'User <b>' . $user['username'] . '</b> tidak aktif!');
             }
         } else {
-            return redirect()->back()->with('error', 'Username tidak ditemukan!');
+            return redirect()->back()->with('error', '<b>Username tidak ditemukan!</b>');
         }
     }
 

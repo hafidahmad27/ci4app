@@ -26,7 +26,7 @@ class User extends BaseController
         $data = [
             'title' => 'Daftar User | HFD APP',
             'content_header' => 'Daftar User',
-            'table' => $this->userModel->orderBy('created_at', 'DESC')->findAll()
+            'users' => $this->userModel->orderBy('level', 'DESC')->findAll()
         ];
 
         return view('backend/user/index', $data);
@@ -45,22 +45,22 @@ class User extends BaseController
             'name' => [
                 'rules' => 'is_unique[users.name]',
                 'errors' => [
-                    'is_unique' => 'Nama "' . $data['name'] . '" sudah ada. Harap isi dengan Nama lain!'
+                    'is_unique' => 'Nama "' . $data['name'] . '" sudah ada! Harap isi dengan nama lain.'
                 ]
             ],
             'username' => [
                 'rules' => 'is_unique[users.username]',
                 'errors' => [
-                    'is_unique' => 'Username "' . $data['username'] . '" sudah ada. Harap isi dengan username lain!'
+                    'is_unique' => 'Username "' . $data['username'] . '" sudah ada! Harap isi dengan username lain.'
                 ]
             ],
         ]);
 
         if ($this->validation->run($data)) {
             $this->userModel->insert($data);
-            return redirect()->back()->with('message_add', '<div class="alert alert-success alert-dismissible fade show" role="alert"><strong>User "' . $data['name'] . '" telah ditambahkan</strong> <i class="fas fa-check-circle"></i></div>');
+            return redirect()->back()->with('message_add', '<div class="alert alert-success alert-dismissible fade show" role="alert">User <b>' . $data['name'] . '</b> telah ditambahkan <i class="fas fa-check-circle"></i><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
         } else {
-            return redirect()->back()->with('message_add', '<div class="alert alert-danger alert-dismissible fade show" role="alert"><strong>' . $this->validation->listErrors() . '</strong></div>');
+            return redirect()->back()->with('message_add', '<div class="alert alert-danger alert-dismissible fade show" role="alert">' . $this->validation->listErrors() . '</b><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
         }
     }
 
@@ -78,68 +78,68 @@ class User extends BaseController
             'name' => [
                 'rules' => 'is_unique[users.name,id,' . $id . ']',
                 'errors' => [
-                    'is_unique' => 'Nama "' . $data['name'] . '" sudah ada. Harap isi dengan Nama lain!'
+                    'is_unique' => 'Nama "' . $data['name'] . '" sudah ada! Harap isi dengan nama lain.'
                 ]
             ],
             'username' => [
                 'rules' => 'is_unique[users.username,id,' . $id . ']',
                 'errors' => [
-                    'is_unique' => 'Username "' . $data['username'] . '" sudah ada. Harap isi dengan Username lain!'
+                    'is_unique' => 'Username "' . $data['username'] . '" sudah ada! Harap isi dengan username lain.'
                 ]
             ],
         ]);
 
         if ($this->validation->run($data)) {
             $this->userModel->update($id, $data);
-            return redirect()->back()->with('message', '<div class="alert alert-success alert-dismissible fade show" role="alert"><strong>User "' . $data['name'] . '" telah di-update</strong> <i class="fas fa-check-circle"></i></div>');
+            return redirect()->back()->with('message', '<div class="alert alert-success alert-dismissible fade show" role="alert">User <b>' . $data['name'] . '</b> telah di-update</b> <i class="fas fa-check-circle"></i><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
         } else {
-            return redirect()->back()->with('message', '<div class="alert alert-danger alert-dismissible fade show" role="alert"><strong>' . $this->validation->listErrors() . '</strong></div>');
+            return redirect()->back()->with('message', '<div class="alert alert-danger alert-dismissible fade show" role="alert">' . $this->validation->listErrors() . '</b><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
         }
     }
 
     public function getEditById()
     {
         $id = $this->request->getPost('id');
-        $table = $this->userModel->find($id);
+        $user = $this->userModel->find($id);
 
-        return json_encode($table);
+        return json_encode($user);
     }
 
     public function resetPassword()
     {
         $id = $this->request->getPost('id');
-        $table = $this->userModel->find($id);
-        $default_password = password_hash($table['username'], PASSWORD_DEFAULT);
+        $user = $this->userModel->find($id);
+        $default_password = password_hash($user['username'], PASSWORD_DEFAULT);
 
         $this->userModel->update($id, ['password' => $default_password]);
-        return redirect()->back()->with('message', '<div class="alert alert-success alert-dismissible fade show" role="alert"><strong>Password "' . $table['name'] . '" telah di-reset</strong> <i class="fas fa-check-circle"></i></div>');
+        return redirect()->back()->with('message', '<div class="alert alert-success alert-dismissible fade show" role="alert">Password <b>' . $user['name'] . '</b> telah di-reset</b> <i class="fas fa-check-circle"></i><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
     }
 
     public function userStatus()
     {
         $id = $this->request->getPost('id');
-        $table = $this->userModel->find($id);
+        $user = $this->userModel->find($id);
 
-        if ($table['is_active'] == 1) {
+        if ($user['is_active'] == 1) {
             $is_active = 0;
         } else {
             $is_active = 1;
         }
         $this->userModel->update($id, ['is_active' => $is_active]);
 
-        if ($table['is_active'] == 1) {
-            return redirect()->back()->with('message', '<div class="alert alert-info alert-info2 alert-dismissible fade show" role="alert"><strong>User "' . $table['name'] . '" telah dinonaktifkan</strong> <i class="fas fa-check-circle"></i></div>');
+        if ($user['is_active'] == 1) {
+            return redirect()->back()->with('message', '<div class="alert alert-dark alert-dismissible fade show" role="alert">User <b>' . $user['name'] . '</b> telah dinonaktifkan</.b> <i class="fas fa-check-circle"></i><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
         } else {
-            return redirect()->back()->with('message', '<div class="alert alert-success alert-dismissible fade show" role="alert"><strong>User "' . $table['name'] . '" telah diaktifkan</strong> <i class="fas fa-check-circle"></i></div>');
+            return redirect()->back()->with('message', '<div class="alert alert-light alert-dismissible fade show" role="alert">User <b>' . $user['name'] . '</b> telah diaktifkan</b> <i class="fas fa-check-circle"></i><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
         }
     }
 
     public function delete()
     {
         $id = $this->request->getPost('id');
-        $table = $this->userModel->find($id);
+        $user = $this->userModel->find($id);
 
         $this->userModel->delete($id);
-        return redirect()->back()->with('message', '<div class="alert alert-success alert-dismissible fade show" role="alert"><strong>User "' . $table['username'] . '" telah dihapus</strong> <i class="fas fa-check-circle"></i></div>');
+        return redirect()->back()->with('message', '<div class="alert alert-success alert-dismissible fade show" role="alert">User <b>' . $user['username'] . '</b> telah dihapus</b> <i class="fas fa-check-circle"></i><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
     }
 }

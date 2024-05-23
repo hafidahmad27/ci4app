@@ -53,30 +53,61 @@
                             <li class="nav-item">
                                 <a href="<?= url_to('backend.item.view'); ?>" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
-                                    <p>Item</p>
+                                    <p>Items</p>
                                 </a>
                             </li>
                         </ul>
                     </li>
 
+                    <!-- ===== -->
                     <li class="nav-item">
-                        <a href="<?= url_to('backend.transaction.view'); ?>" class="nav-link">
+                        <a href="#" class="nav-link">
                             <i class="nav-icon fas fa-edit"></i>
                             <p>
                                 Transaksi
+                                <i class="fas fa-angle-left right"></i>
                             </p>
                         </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="<?= url_to('backend.transaction.form.view'); ?>" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Form</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="<?= url_to('backend.transaction.lists.view') ?>" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Lists</p>
+                                </a>
+                            </li>
+                        </ul>
                     </li>
                 <?php endif ?>
 
                 <?php if ($level == 'pimpinan' || $level == 'superadmin') : ?>
                     <li class="nav-item">
-                        <a href="<?= url_to('backend.report.view'); ?>" class="nav-link">
+                        <a href="#" class="nav-link">
                             <i class="nav-icon fas fa-book"></i>
                             <p>
-                                Report
+                                Reports
+                                <i class="fas fa-angle-left right"></i>
                             </p>
                         </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="<?= url_to('backend.report.a_reports.view') ?>" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Report A</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="<?= url_to('backend.report.b_reports.view'); ?>" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Report B</p>
+                                </a>
+                            </li>
+                        </ul>
                     </li>
                 <?php endif ?>
 
@@ -85,7 +116,7 @@
                         <a href="<?= url_to('backend.user.view'); ?>" class="nav-link">
                             <i class="nav-icon fas fa-users"></i>
                             <p>
-                                User
+                                Users
                             </p>
                         </a>
                     </li>

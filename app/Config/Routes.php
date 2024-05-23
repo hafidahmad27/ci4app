@@ -14,20 +14,20 @@ $routes->post('logout', 'Backend\Auth::logout', ['as' => 'backend.logout']);
 
 $routes->group('backend', ['filter' => 'userNotLoggedIn'], static function ($routes) {
     $routes->get('/', 'Backend\Dashboard::index', ['as' => 'backend.dashboard.view']);
-    $routes->group('category', static function ($routes) {
+    $routes->group('categories', static function ($routes) {
         $routes->get('/', 'Backend\Category::index', ['as' => 'backend.category.view']);
         $routes->post('insert', 'Backend\Category::insert', ['as' => 'backend.category.insert']);
         $routes->post('update', 'Backend\Category::update', ['as' => 'backend.category.update']);
         $routes->post('delete', 'Backend\Category::delete', ['as' => 'backend.category.delete']);
     });
-    $routes->group('item', static function ($routes) {
+    $routes->group('items', static function ($routes) {
         $routes->get('/', 'Backend\Item::index', ['as' => 'backend.item.view']);
-        $routes->get('form_add', 'Backend\Item::form_add', ['as' => 'backend.item.form_add']);
+        $routes->get('form_add', 'Backend\Item::form_add', ['as' => 'backend.item.form_add.view']);
         $routes->post('insert', 'Backend\Item::insert', ['as' => 'backend.item.insert']);
         $routes->post('update', 'Backend\Item::update', ['as' => 'backend.item.update']);
         $routes->post('delete', 'Backend\Item::delete', ['as' => 'backend.item.delete']);
     });
-    $routes->group('user', static function ($routes) {
+    $routes->group('users', static function ($routes) {
         $routes->get('/', 'Backend\User::index', ['as' => 'backend.user.view']);
         $routes->post('insert', 'Backend\User::insert', ['as' => 'backend.user.insert']);
         $routes->post('update', 'Backend\User::update', ['as' => 'backend.user.update']);
@@ -36,18 +36,24 @@ $routes->group('backend', ['filter' => 'userNotLoggedIn'], static function ($rou
         $routes->post('userStatus', 'Backend\User::userStatus', ['as' => 'backend.user.userStatus']);
     });
     $routes->group('transaction', static function ($routes) {
-        $routes->get('/', 'Backend\Transaction::index', ['as' => 'backend.transaction.view']);
+        $routes->get('form', 'Backend\Transaction::index', ['as' => 'backend.transaction.form.view']);
+        $routes->post('addToCart', 'Backend\Transaction::addToCart', ['as' => 'backend.transaction.addToCart']);
+        $routes->post('deleteFromCart', 'Backend\Transaction::deleteFromCart', ['as' => 'backend.transaction.deleteFromCart']);
+        $routes->post('insert', 'Backend\Transaction::insert', ['as' => 'backend.transaction.insert']);
+        $routes->get('lists', 'Backend\Transaction::lists', ['as' => 'backend.transaction.lists.view']);
+        $routes->get('list_details/(:any)', 'Backend\Transaction::list_details/$1', ['as' => 'backend.transaction.list_details.view']);
     });
-    $routes->group('report', static function ($routes) {
-        $routes->get('/', 'Backend\Report::index', ['as' => 'backend.report.view']);
+    $routes->group('reports', static function ($routes) {
+        $routes->get('a_reports', 'Backend\Report::a_reports', ['as' => 'backend.report.a_reports.view']);
+        $routes->get('b_reports', 'Backend\Report::b_reports', ['as' => 'backend.report.b_reports.view']);
     });
-    $routes->group('setting', static function ($routes) {
+    $routes->group('settings', static function ($routes) {
         $routes->get('/', 'Backend\Setting::index', ['as' => 'backend.setting.view']);
         $routes->post('changeProfil', 'Backend\Setting::changeProfil', ['as' => 'backend.setting.changeProfil']);
         $routes->post('changePassword', 'Backend\Setting::changePassword', ['as' => 'backend.setting.changePassword']);
     });
 });
 
-// get ID with AJAX for edit data
+// get value by ID with AJAX for modal edit form
 $routes->post('editUserById', 'Backend\User::getEditById');
 $routes->post('editItemById', 'Backend\Item::getEditById');

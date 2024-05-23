@@ -5,7 +5,7 @@
 <div class="col-12">
     <div class="card card-primary">
         <div class="card-body">
-            <a href="<?= url_to('backend.item.form_add'); ?>" class="btn btn-primary btn-sm"><i class="fas fa-plus"></i> Add Item</a>
+            <a href="<?= url_to('backend.item.form_add.view'); ?>" class="btn btn-primary btn-sm"><i class="fas fa-plus"></i> Add Item</a>
             <?= session()->getFlashdata('message'); ?>
             <table id="example1" class="table table-bordered table-hover">
                 <thead>
@@ -20,19 +20,19 @@
                 </thead>
                 <tbody>
                     <?php $no = 1;
-                    foreach ($relations as $items) : ?>
+                    foreach ($items as $item) : ?>
                         <tr>
                             <td><?= $no++ ?></td>
-                            <td><?= $items['item_name']; ?></td>
-                            <td><?= $items['category_name']; ?></td>
-                            <td><?= number_format($items['price'], 0, ',', '.'); ?></td>
-                            <td align="justify"><?= $items['description']; ?></td>
+                            <td><?= $item['item_name']; ?></td>
+                            <td><?= $item['category_name']; ?></td>
+                            <td><?= number_format($item['price'], 0, ',', '.'); ?></td>
+                            <td align="justify"><?= $item['description']; ?></td>
                             <td width="12%" align="center">
-                                <button type="button" class="btn btn-primary btn-sm btnEditItem" data-id="<?= $items['id'] ?>" data-toggle="modal" data-target="#staticBackdrop"><i class=" nav-icon fas fa-edit"></i></button>
+                                <button type="button" class="btn btn-primary btn-sm btnEditItem" data-id="<?= $item['id'] ?>" data-toggle="modal" data-target="#staticBackdrop"><i class=" nav-icon fas fa-edit"></i></button>
                                 <?php if (session()->get('level') == 'superadmin') : ?>
                                     <form action="<?= url_to('backend.item.delete'); ?>" method="post" class="d-inline"> |
                                         <?= csrf_field(); ?>
-                                        <input type="hidden" name="id" value="<?= $items['id'] ?>">
+                                        <input type="hidden" name="id" value="<?= $item['id'] ?>">
                                         <button type="submit" class="btn btn-danger btn-sm"><i class="nav-icon fas fa-trash"></i></button>
                                     </form>
                                 <?php endif ?>
@@ -40,12 +40,6 @@
                         </tr>
                     <?php endforeach; ?>
                 </tbody>
-                <!-- <tfoot>
-            <tr>
-                <th>...</th>
-                <th>...</th>
-            </tr>
-        </tfoot> -->
             </table>
         </div>
     </div>
@@ -73,8 +67,8 @@
                             <label>Kategori</label>
                             <select id="category_id" name="category_id" class="form-control" style="width: 100%;" required>
                                 <option value="" selected="selected" disabled="disabled">Pilih..</option>
-                                <?php foreach ($options as $categories) : ?>
-                                    <option value="<?= $categories['id']; ?>"><?= $categories['category_name']; ?></option>
+                                <?php foreach ($category_options as $category_option) : ?>
+                                    <option value="<?= $category_option['id']; ?>"><?= $category_option['category_name']; ?></option>
                                 <?php endforeach; ?>
                             </select>
                         </div>

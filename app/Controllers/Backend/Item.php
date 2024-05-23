@@ -28,8 +28,8 @@ class Item extends BaseController
         $data = [
             'title' => 'Daftar Item | HFD APP',
             'content_header' => 'Daftar Item',
-            'relations' => $this->itemModel->getItems()->getResultArray(),
-            'options' => $this->categoryModel->findAll()
+            'items' => $this->itemModel->getItems()->getResultArray(),
+            'category_options' => $this->categoryModel->findAll()
         ];
 
         return view('backend/item/index', $data);
@@ -39,9 +39,8 @@ class Item extends BaseController
     {
         $data = [
             'title' => 'Form Tambah Item | HFD APP',
-            // 'content_header' => 'Form Tambah Item',
-            'options' => $this->categoryModel->findAll(),
-            'table' => $this->itemModel->findAll()
+            'category_options' => $this->categoryModel->findAll(),
+            'items' => $this->itemModel->findAll()
         ];
 
         return view('backend/item/form_add', $data);
@@ -60,16 +59,16 @@ class Item extends BaseController
             'item_name' => [
                 'rules'  => 'is_unique[items.item_name]',
                 'errors' => [
-                    'is_unique' => 'Item "' . $data['item_name'] . '" sudah ada. Harap isi dengan item lain!',
+                    'is_unique' => 'Item <b>' . $data['item_name'] . '</b> sudah ada! Harap isi dengan item lain.',
                 ],
             ],
         ]);
 
         if ($this->validation->run($data)) {
             $this->itemModel->insert($data);
-            return redirect()->back()->with('message', '<div class="alert alert-success alert-dismissible fade show" role="alert"><strong>Item "' . $data['item_name'] . '" telah ditambahkan</strong> <i class="fas fa-check-circle"></i></div>');
+            return redirect()->back()->with('message', '<div class="alert alert-success alert-dismissible fade show" role="alert">Item <b>' . $data['item_name'] . '</b> telah ditambahkan <i class="fas fa-check-circle"></i><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
         } else {
-            return redirect()->back()->with('message', '<div class="alert alert-danger alert-dismissible fade show" role="alert"><strong>' . implode($this->validation->getErrors()) . '</strong></div>');
+            return redirect()->back()->with('message', '<div class="alert alert-danger alert-dismissible fade show" role="alert">' . implode($this->validation->getErrors()) . '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
         }
     }
 
@@ -88,33 +87,36 @@ class Item extends BaseController
             'item_name' => [
                 'rules'  => 'is_unique[items.item_name,id,' . $id . ']',
                 'errors' => [
-                    'is_unique' => 'Item "' . $data['item_name'] . '" sudah ada. Harap isi dengan item lain!',
+                    'is_unique' => 'Item <b>' . $data['item_name'] . '</b> sudah ada! Harap isi dengan item lain.',
                 ],
             ],
         ]);
 
         if ($this->validation->run($data)) {
             $this->itemModel->update($id, $data);
-            return redirect()->back()->with('message', '<div class="alert alert-success alert-dismissible fade show mt-3" role="alert"><strong>Item "' . $data['item_name'] . '" telah di-update</strong> <i class="fas fa-check-circle"></i></div>');
+            return redirect()->back()->with('message', '<div class="alert alert-success alert-dismissible fade show mt-3" role="alert">Item <b>' . $data['item_name'] . '</b> telah di-update</b> <i class="fas fa-check-circle"></i><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
         } else {
-            return redirect()->back()->with('message', '<div class="alert alert-danger alert-dismissible fade show mt-3" role="alert"><strong>' . implode($this->validation->getErrors()) . '</strong></div>');
+            return redirect()->back()->with('message', '<div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">' . implode($this->validation->getErrors()) . '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
         }
     }
 
     public function getEditById()
     {
         $id = $this->request->getPost('id');
-        $relations = $this->itemModel->where(['id' => $id])->get()->getRowArray();
+        $item = $this->itemModel->find($id);
 
-        return json_encode($relations);
+        return json_encode($item);
     }
 
     public function delete()
     {
         $id = $this->request->getPost('id');
-        $relations = $this->itemModel->where(['id' => $id])->get()->getRowArray();
+        $item = $this->itemModel->find($id);
 
-        $this->itemModel->delete($id);
-        return redirect()->back()->with('message', '<div class="alert alert-success alert-dismissible fade show mt-3" role="alert"><strong>Item "' . $relations['item_name'] . '" telah dihapus</strong> <i class="fas fa-check-circle"></i></div>');
+        if ($this->itemModel->delete($id)) {
+            return redirect()->back()->with('message', '<div class="alert alert-success mt-3 alert-dismissible fade show" role="alert">Item <b>' . $item['item_name'] . '</b> telah dihapus <i class="fas fa-check-circle"></i><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+        } else {
+            return redirect()->back()->with('message', '<div class="alert alert-danger mt-3 alert-dismissible fade show" role="alert">Item <b>' . $item['item_name'] . '</b> tidak dapat dihapus! karena <b>ada</b> dalam <b>Keranjang Item</b><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+        }
     }
 }

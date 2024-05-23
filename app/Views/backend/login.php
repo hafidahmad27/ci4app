@@ -17,7 +17,7 @@
                 <p class="login-box-msg">Halaman Login Admin</p>
                 <?php if (session()->getFlashdata('error')) : ?>
                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                        <strong><?= session()->getFlashdata('error'); ?></strong>
+                        <?= session()->getFlashdata('error'); ?>
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -64,7 +64,7 @@
             </div>
         </div>
     </div>
-    <small class="text-muted mt-1">Copyright &copy; 2023 <a href="#">HFD Corp</a>. All rights reserved.</small>
+    <small class="text-muted mt-1">Copyright &copy; 2024 <a href="#">HFD Corp</a>. All rights reserved.</small>
 
     <?= $this->include('template/adminlte/script') ?>
 </body>

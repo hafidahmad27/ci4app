@@ -18,47 +18,44 @@
                 </thead>
                 <tbody>
                     <?php $no = 1;
-                    foreach ($table as $users) : ?>
-                        <?php if ($users['level'] != 'superadmin') : ?>
-                            <tr>
+                    foreach ($users as $user) : ?>
+                        <?php if ($user['level'] != 'superadmin') : ?>
+                            <tr class="<?= $user['is_active'] != 0 ? '' : 'bg-dark'; ?>">
                                 <td><?= $no++ ?></td>
                                 <td>
-                                    <?php if ($users['level'] == 'admin') : ?>
-                                        <?= $users['name']; ?> <span class="badge badge-secondary"><?= strtoupper($users['level']) ?></span>
-                                    <?php elseif ($users['level'] == 'pimpinan') : ?>
-                                        <?= $users['name']; ?> <span class="badge badge-dark"><?= strtoupper($users['level']) ?></span>
+                                    <?php if ($user['level'] == 'admin') : ?>
+                                        <?= $user['name']; ?> <span class="badge badge-info"><?= strtoupper($user['level']) ?></span>
+                                    <?php elseif ($user['level'] == 'pimpinan') : ?>
+                                        <?= $user['name']; ?> <span class="badge badge-secondary"><?= strtoupper($user['level']) ?></span>
                                     <?php endif ?>
                                 </td>
-                                <td><?= $users['username']; ?></td>
+                                <td><?= $user['username']; ?></td>
                                 <td>
-                                    <?php if (password_verify($users['username'], $users['password'])) { ?>
+                                    <?php if (password_verify($user['username'], $user['password'])) { ?>
                                         DEFAULT
                                     <?php } else { ?>
                                         ********
                                         <form action="<?= url_to('backend.user.resetPassword'); ?>" method="post" class="d-inline float-right">
                                             <?= csrf_field(); ?>
-                                            <input type="hidden" name="id" value="<?= $users['id'] ?>">
+                                            <input type="hidden" name="id" value="<?= $user['id'] ?>">
                                             <button type="submit" class="btn btn-light btn-sm"><i class="nav-icon fas fa-sync-alt"></i></button>
                                         </form>
                                     <?php } ?>
                                 </td>
                                 <td width="25%" align="center">
-                                    <form action="<?= url_to('backend.user.userStatus'); ?>" method="post" class="d-inline">
-                                        <input type="hidden" name="id" value="<?= $users['id'] ?>">
-                                        <?php if ($users['is_active'] == 1) { ?>
-                                            <button type="submit" class="btn btn-success btn-sm"><i class="fas fa-toggle-on"></i></button>
+                                    <button type="button" class="btn btn-primary btn-sm btnEditUser" data-id="<?= $user['id'] ?>" data-toggle="modal" data-target="#staticBackdrop"><i class=" nav-icon fas fa-edit"></i></button>
+                                    <form action="<?= url_to('backend.user.userStatus'); ?>" method="post" class="d-inline"> |
+                                        <input type="hidden" name="id" value="<?= $user['id'] ?>">
+                                        <?php if ($user['is_active'] == 1) { ?>
+                                            <button type="submit" class="btn btn-outline-dark btn-sm"><i class="fas fa-toggle-on"></i></button>
                                         <?php } else { ?>
-                                            <button type="submit" class="btn btn-info btn-sm"><i class="fas fa-toggle-off"></i></button>
+                                            <button type="submit" class="btn btn-outline-light btn-sm"><i class="fas fa-toggle-off"></i></button>
                                         <?php } ?>
-                                    </form> |
-                                    <button type="button" class="btn btn-primary btn-sm btnEditUser" data-id="<?= $users['id'] ?>" data-toggle="modal" data-target="#staticBackdrop">
-                                        <i class=" nav-icon fas fa-edit"></i>
-                                        <!--  -->
-                                    </button>
+                                    </form>
                                     <?php if (session()->get('level') == 'superadmin') : ?>
                                         <form action="<?= url_to('backend.user.delete'); ?>" method="post" class="d-inline"> |
                                             <?= csrf_field(); ?>
-                                            <input type="hidden" name="id" value="<?= $users['id'] ?>">
+                                            <input type="hidden" name="id" value="<?= $user['id'] ?>">
                                             <button type="submit" class="btn btn-danger btn-sm"><i class="nav-icon fas fa-trash"></i></button>
                                         </form>
                                     <?php endif ?>
@@ -67,12 +64,6 @@
                         <?php endif ?>
                     <?php endforeach; ?>
                 </tbody>
-                <!-- <tfoot>
-            <tr>
-                <th>...</th>
-                <th>...</th>
-            </tr>
-        </tfoot> -->
             </table>
         </div>
     </div>
@@ -87,8 +78,15 @@
             <?= session()->getFlashdata('message_add'); ?>
             <form action="<?= url_to('backend.user.insert'); ?>" method="post">
                 <?= csrf_field(); ?>
-                <!-- <input type="hidden" name="id"> -->
+                <div class="form-group">
+                    <label>Nama</label>
+                    <input type="text" name="name" maxlength="50" class="form-control" placeholder="Nama user.." required>
+                </div>
                 <div class="row">
+                    <div class="form-group col-md-7">
+                        <label>Username</label>
+                        <input type="text" name="username" maxlength="25" class="form-control" placeholder="Username.." required>
+                    </div>
                     <div class="form-group col-md-5">
                         <label>Level</label>
                         <select name="level" class="form-control" autofocus required>
@@ -98,14 +96,6 @@
                             <option value="pimpinan">PIMPINAN</option>
                         </select>
                     </div>
-                    <div class="form-group col-md-7">
-                        <label>Username</label>
-                        <input type="text" name="username" maxlength="25" class="form-control" placeholder="Username.." required>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label>Nama</label>
-                    <input type="text" name="name" maxlength="50" class="form-control" placeholder="Nama user.." required>
                 </div>
                 <small class="font-weight-bolder">*) Default password = username</small>
                 <button type="submit" class="btn btn-primary form-control mt-3"><i class="fas fa-plus"></i> Add</button>

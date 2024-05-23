@@ -12,7 +12,9 @@
     <div class="card card-primary">
         <div class="card-header bg-primary">
             <h3 class="card-title">Form Tambah Item</h3>
-            <a href="<?= url_to('backend.item.view'); ?>" class="btn btn-dark btn-xs float-right"><i class="fas fa-reply"></i> Back</a>
+            <div class="text-dark">
+                <a href="<?= url_to('backend.item.view'); ?>" class="btn btn-default text-dark btn-xs float-right"><i class="fas fa-reply"></i> Back</a>
+            </div>
         </div>
         <div class="card-body">
             <?= session()->getFlashdata('message'); ?>
@@ -25,10 +27,10 @@
                     </div>
                     <div class="form-group col-md-5">
                         <label>Kategori</label>
-                        <select id="category_id" name="category_id" class="form-control" required>
+                        <select name="category_id" class="form-control" required>
                             <option value="" selected="selected" disabled="disabled">Pilih..</option>
-                            <?php foreach ($options as $categories) : ?>
-                                <option value="<?= $categories['id']; ?>"><?= $categories['category_name']; ?></option>
+                            <?php foreach ($category_options as $category_option) : ?>
+                                <option value="<?= $category_option['id']; ?>"><?= $category_option['category_name']; ?></option>
                             <?php endforeach; ?>
                         </select>
                     </div>

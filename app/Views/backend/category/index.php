@@ -16,33 +16,34 @@
                 </thead>
                 <tbody>
                     <?php $no = 1;
-                    foreach ($table as $categories) : ?>
+                    foreach ($categories as $category) : ?>
                         <tr>
                             <td><?= $no++ ?></td>
+
+                            <!-- FORM UPDATE START -->
                             <form action="<?= url_to('backend.category.update'); ?>" method="post" class="d-inline">
                                 <td>
-                                    <input type="text" name="category_name" maxlength="30" class="form-control" value="<?= $categories['category_name']; ?>">
+                                    <div style="display: none;"><?= $category['category_name']; ?></div>
+                                    <input type="text" name="category_name" maxlength="30" class="form-control" value="<?= $category['category_name']; ?>">
                                 </td>
+
+                                <!-- TD ACTION (UPDATE & DELETE) START -->
                                 <td width="15%" align="center">
-                                    <input type="hidden" name="id" value="<?= $categories['id'] ?>">
+                                    <input type="hidden" name="id" value="<?= $category['id'] ?>">
                                     <button type="submit" class="btn btn-primary btn-sm"><i class="nav-icon fas fa-sync"></i> Update</button>
                             </form>
+                            <!-- /.FORM UPDATE END -->
+
                             <?php if (session()->get('level') == 'superadmin') : ?>
                                 <form action="<?= url_to('backend.category.delete'); ?>" method="post" class="d-inline"> |
-                                    <input type="hidden" name="id" value="<?= $categories['id'] ?>">
+                                    <input type="hidden" name="id" value="<?= $category['id'] ?>">
                                     <button type="submit" class="btn btn-danger btn-sm"><i class="nav-icon fas fa-trash"></i></button>
                                 </form>
                             <?php endif ?>
-                            </td>
+                            </td><!-- /.TD ACTION (UPDATE & DELETE) END -->
                         </tr>
                     <?php endforeach; ?>
                 </tbody>
-                <!-- <tfoot>
-                    <tr>
-                <th>...</th>
-                <th>...</th>
-            </tr>
-        </tfoot> -->
             </table>
         </div>
     </div>

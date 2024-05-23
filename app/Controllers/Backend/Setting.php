@@ -23,7 +23,7 @@ class Setting extends BaseController
         $data = [
             'title' => 'Settings | HFD APP',
             'content_header' => 'Settings',
-            'table' => $this->userModel->find($id)
+            'user' => $this->userModel->find($id)
         ];
 
         return view('backend/setting/index', $data);
@@ -42,13 +42,13 @@ class Setting extends BaseController
             'name' => [
                 'rules' => 'is_unique[users.name,id,' . $id . ']',
                 'errors' => [
-                    'is_unique' => 'Nama "' . $data['name'] . '" sudah ada. Harap isi dengan Nama lain!'
+                    'is_unique' => 'Nama "' . $data['name'] . '" sudah ada! Harap isi dengan nama lain.'
                 ]
             ],
             'username' => [
                 'rules' => 'is_unique[users.username,id,' . $id . ']',
                 'errors' => [
-                    'is_unique' => 'Username "' . $data['username'] . '" sudah ada. Harap isi dengan Username lain!'
+                    'is_unique' => 'Username "' . $data['username'] . '" sudah ada! Harap isi dengan username lain.'
                 ]
             ],
         ]);
@@ -56,25 +56,28 @@ class Setting extends BaseController
         if ($this->validation->run($data)) {
             session()->set($data);
             $this->userModel->update($id, $data);
-            return redirect()->back()->with('message', '<div class="alert alert-success alert-dismissible fade show" role="alert"><strong>Username berhasil diubah</strong> <i class="fas fa-check-circle"></i></div>');
+            return redirect()->back()->with('message', '<div class="alert alert-success alert-dismissible fade show" role="alert">Username berhasil diubah <i class="fas fa-check-circle"></i><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
         } else {
-            return redirect()->back()->with('message', '<div class="alert alert-danger alert-dismissible fade show" role="alert"><strong>' . $this->validation->listErrors() . '</strong></div>');
+            return redirect()->back()->with('message', '<div class="alert alert-danger alert-dismissible fade show" role="alert">' . $this->validation->listErrors() . '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
         }
     }
 
     public function changePassword()
     {
         $id = session()->get('id');
-        $new_password = $this->request->getVar('password');
+        $input_password_old = $this->request->getVar('password_old');
         $old_password = $this->userModel->find($id);
+        $new_password = $this->request->getVar('password_new');
 
-        $data = [
-            'password' => !empty($new_password) ? password_hash($new_password, PASSWORD_DEFAULT) : $old_password['password']
-        ];
-
-        session()->set($data);
-        $this->userModel->update($id, $data);
-
-        return redirect()->back()->with('message-password', '<div class="alert alert-success alert-dismissible fade show" role="alert"><strong>Password berhasil diubah</strong> <i class="fas fa-check-circle"></i></div>');
+        if (password_verify($input_password_old, $old_password['password'])) {
+            $data = [
+                'password' => password_hash($new_password, PASSWORD_DEFAULT)
+            ];
+            session()->set($data);
+            $this->userModel->update($id, $data);
+            return redirect()->back()->with('message-password', '<div class="alert alert-success alert-dismissible fade show" role="alert">Password berhasil diubah <i class="fas fa-check-circle"></i><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+        } else {
+            return redirect()->back()->with('message-password', '<div class="alert alert-danger alert-dismissible fade show" role="alert"><b>Password lama tidak benar</b> <i class="fas fa-exclamation-circle"></i><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+        }
     }
 }
