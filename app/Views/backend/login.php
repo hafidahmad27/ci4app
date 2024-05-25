@@ -4,7 +4,7 @@
 <head>
     <title><?= $title; ?></title>
 
-    <?= $this->include('template/adminlte/head') ?>
+    <?= $this->include('backend/layouts/head') ?>
 </head>
 
 <body class="hold-transition login-page">
@@ -66,7 +66,7 @@
     </div>
     <small class="text-muted mt-1">Copyright &copy; 2024 <a href="#">HFD Corp</a>. All rights reserved.</small>
 
-    <?= $this->include('template/adminlte/script') ?>
+    <?= $this->include('backend/layouts/script') ?>
 </body>
 
 </html>

@@ -38,6 +38,7 @@ $routes->group('backend', ['filter' => 'userNotLoggedIn'], static function ($rou
     $routes->group('transaction', static function ($routes) {
         $routes->get('form', 'Backend\Transaction::index', ['as' => 'backend.transaction.form.view']);
         $routes->post('addToCart', 'Backend\Transaction::addToCart', ['as' => 'backend.transaction.addToCart']);
+        $routes->post('updateCart', 'Backend\Transaction::updateCart', ['as' => 'backend.transaction.updateCart']);
         $routes->post('deleteFromCart', 'Backend\Transaction::deleteFromCart', ['as' => 'backend.transaction.deleteFromCart']);
         $routes->post('insert', 'Backend\Transaction::insert', ['as' => 'backend.transaction.insert']);
         $routes->get('lists', 'Backend\Transaction::lists', ['as' => 'backend.transaction.lists.view']);
@@ -57,3 +58,4 @@ $routes->group('backend', ['filter' => 'userNotLoggedIn'], static function ($rou
 // get value by ID with AJAX for modal edit form
 $routes->post('editUserById', 'Backend\User::getEditById');
 $routes->post('editItemById', 'Backend\Item::getEditById');
+$routes->post('editCartItemById', 'Backend\Transaction::getEditCartItemById');

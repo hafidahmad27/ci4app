@@ -4,7 +4,7 @@
 <head>
     <title><?= isset($title) ? $title : ''; ?></title>
 
-    <?= $this->include('template/adminlte/head') ?>
+    <?= $this->include('backend/layouts/head') ?>
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -15,9 +15,9 @@
             <img class="animation__shake" src="dist/img/AdminLTELogo.png" alt="AdminLTELogo" height="60" width="60">
         </div> -->
 
-        <?= $this->include('template/adminlte/navbar') ?>
+        <?= $this->include('backend/layouts/navbar') ?>
 
-        <?= $this->include('template/adminlte/sidebar') ?>
+        <?= $this->include('backend/layouts/sidebar') ?>
 
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
@@ -52,7 +52,7 @@
         </div>
         <!-- /.content-wrapper -->
 
-        <?= $this->include('template/adminlte/footer') ?>
+        <?= $this->include('backend/layouts/footer') ?>
 
         <!-- Control Sidebar -->
         <aside class="control-sidebar control-sidebar-dark">
@@ -62,7 +62,7 @@
     </div>
     <!-- ./wrapper -->
 
-    <?= $this->include('template/adminlte/script') ?>
+    <?= $this->include('backend/layouts/script') ?>
 </body>
 
 </html>

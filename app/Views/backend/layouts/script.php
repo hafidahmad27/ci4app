@@ -60,6 +60,7 @@
 <!-- External JavaScript Files Loader -->
 <script src="<?= base_url(); ?>assets/external-files/js/formEditItem.js"></script>
 <script src="<?= base_url(); ?>assets/external-files/js/formEditUser.js"></script>
+<script src="<?= base_url(); ?>assets/external-files/js/formEditCartItem.js"></script>
 
 <script>
     // current active menu after load

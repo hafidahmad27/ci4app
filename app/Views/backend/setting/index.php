@@ -1,4 +1,4 @@
-<?= $this->extend('template/adminlte/layout') ?>
+<?= $this->extend('backend/layouts/index') ?>
 
 <?= $this->section('content') ?>
 

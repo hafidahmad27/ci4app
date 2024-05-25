@@ -67,6 +67,26 @@ class Transaction extends BaseController
         return redirect()->back();
     }
 
+    public function updateCart()
+    {
+        $id = $this->request->getPost('id');
+
+        $data = [
+            'qty' => $this->request->getPost('qty_edit')
+        ];
+
+        $this->cartItemModel->update($id, $data);
+        return redirect()->back();
+    }
+
+    public function getEditCartItemById()
+    {
+        $id = $this->request->getPost('id');
+        $cartItem = $this->cartItemModel->select('cart_items.id, item_name, qty')->join('items', 'cart_items.item_id = items.id')->find($id);
+
+        return json_encode($cartItem);
+    }
+
     public function deleteFromCart()
     {
         $id = $this->request->getPost('id');
