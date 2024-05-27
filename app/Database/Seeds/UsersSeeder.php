@@ -13,7 +13,7 @@ class UsersSeeder extends Seeder
                 'name' => 'Ahmad Hafid',
                 'username' => 'superadmin',
                 'password' => password_hash('superadmin', PASSWORD_DEFAULT),
-                'level' => 'superadmin'
+                'role_id' => '1'
             ],
         ];
 

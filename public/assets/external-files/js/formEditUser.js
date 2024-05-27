@@ -16,7 +16,7 @@ $(".btnEditUser").on("click", function() {
             $("#formEditUser input[type=hidden]").val(data.id);
             $("#name").val(data.name);
             $("#username").val(data.username);
-            $("#level").val(data.level);
+            $("#role_id").val(data.role_id);
         },
     });
 });

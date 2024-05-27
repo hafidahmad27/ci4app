@@ -23,7 +23,7 @@ class Setting extends BaseController
         $data = [
             'title' => 'Settings | HFD APP',
             'content_header' => 'Settings',
-            'user' => $this->userModel->find($id)
+            'user' => $this->userModel->select('users.id, name, username, password, role_id, role_name')->join('roles', 'users.role_id = roles.id')->find($id)
         ];
 
         return view('backend/setting/index', $data);

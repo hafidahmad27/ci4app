@@ -15,11 +15,11 @@
                 <div class="row">
                     <div class="form-group col-md-7">
                         <label>Nama</label>
-                        <input type="text" name="name" value="<?= $user['name'] ?>" class="form-control" <?= $user['level'] != 'superadmin' ? 'readonly' : ''; ?>>
+                        <input type="text" name="name" value="<?= $user['name'] ?>" class="form-control" <?= $user['role_id'] != 1 ? 'readonly' : ''; ?>>
                     </div>
                     <div class="form-group col-md-5">
-                        <label>Level</label>
-                        <input type="text" value="<?= strtoupper($user['level']) ?>" class="form-control" readonly>
+                        <label>Role</label>
+                        <input type="text" value="<?= strtoupper($user['role_name']) ?>" class="form-control" readonly>
                     </div>
                 </div>
                 <div class="form-group">
@@ -41,7 +41,7 @@
             <?= csrf_field(); ?>
             <input type="hidden" name="id" value="<?= $user['id'] ?>">
             <div class="card-body">
-                <?php if (password_verify($user['username'], $user['password']) && $user['level'] != 'superadmin') : ?>
+                <?php if (password_verify($user['username'], $user['password']) && $user['role_id'] != 1) : ?>
                     <div class="alert alert-warning" role="alert">
                         <i class="fas fa-info-circle"></i> <b>Disarankan agar mengganti password yang masih default!<b>
                     </div>

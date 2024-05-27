@@ -14,7 +14,7 @@
                 <img src="<?= base_url(); ?>assets/AdminLTE-3.2.0/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
             </div>
             <div class="info text-center">
-                <a href="#" class="d-block text-white"><?= strlen(session()->get('name')) > 22 ? substr(session()->get('name'), 0, 22) . ".." : session()->get('name') ?> <br>(<?= strtoupper(session()->get('level')) ?>)</a>
+                <a href="#" class="d-block text-white"><?= strlen(session()->get('name')) > 22 ? substr(session()->get('name'), 0, 22) . ".." : session()->get('name') ?> <br>(<?= strtoupper(session()->get('role_name')) ?>)</a>
             </div>
         </div>
 
@@ -32,8 +32,8 @@
                     </a>
                 </li>
 
-                <?php $level = session()->get('level') ?>
-                <?php if ($level == 'admin' || $level == 'superadmin') : ?>
+                <?php $role_id = session()->get('role_id') ?>
+                <?php if ($role_id == 2 || $role_id == 1) : ?>
                     <!-- <li class="nav-header">MASTER DATA</li> -->
                     <li class="nav-item">
                         <a href="#" class="nav-link">
@@ -85,7 +85,7 @@
                     </li>
                 <?php endif ?>
 
-                <?php if ($level == 'pimpinan' || $level == 'superadmin') : ?>
+                <?php if ($role_id == 3 || $role_id == 1) : ?>
                     <li class="nav-item">
                         <a href="#" class="nav-link">
                             <i class="nav-icon fas fa-book"></i>
@@ -111,7 +111,7 @@
                     </li>
                 <?php endif ?>
 
-                <?php if ($level == 'superadmin') : ?>
+                <?php if ($role_id == 1) : ?>
                     <li class="nav-item">
                         <a href="<?= url_to('backend.user.view'); ?>" class="nav-link">
                             <i class="nav-icon fas fa-users"></i>

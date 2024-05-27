@@ -34,7 +34,7 @@
                             </form>
                             <!-- /.FORM UPDATE END -->
 
-                            <?php if (session()->get('level') == 'superadmin') : ?>
+                            <?php if (session()->get('role_id') == 1) : ?>
                                 <form action="<?= url_to('backend.category.delete'); ?>" method="post" class="d-inline"> |
                                     <input type="hidden" name="id" value="<?= $category['id'] ?>">
                                     <button type="submit" class="btn btn-danger btn-sm"><i class="nav-icon fas fa-trash"></i></button>

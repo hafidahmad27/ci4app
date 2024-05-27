@@ -4,29 +4,32 @@ namespace App\Controllers\Backend;
 
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
+use App\Models\RoleModel;
 use App\Models\UserModel;
 
 class User extends BaseController
 {
-    protected $userModel, $validation;
+    protected $userModel, $roleModel, $validation;
 
     public function __construct()
     {
         $this->userModel = new UserModel();
+        $this->roleModel = new RoleModel();
         $this->validation = \Config\Services::validation();
     }
 
     public function index()
     {
-        $level = session()->get('level');
-        if ($level != 'superadmin') {
+        $role_id = session()->get('role_id');
+        if ($role_id != 1) {
             return redirect()->back();
         }
 
         $data = [
             'title' => 'Daftar User | HFD APP',
             'content_header' => 'Daftar User',
-            'users' => $this->userModel->orderBy('level', 'DESC')->findAll()
+            'users' => $this->userModel->select('users.id, name, username, password, is_active, role_id, role_name')->join('roles', 'users.role_id = roles.id')->findAll(),
+            'role_options' => $this->roleModel->where('id != 1')->findAll()
         ];
 
         return view('backend/user/index', $data);
@@ -38,7 +41,7 @@ class User extends BaseController
             'name' => $this->request->getPost('name'),
             'username' => $this->request->getPost('username'),
             'password' => password_hash($this->request->getVar('username'), PASSWORD_DEFAULT),
-            'level' => $this->request->getPost('level')
+            'role_id' => $this->request->getPost('role_id')
         ];
 
         $this->validation->setRules([
@@ -71,7 +74,7 @@ class User extends BaseController
         $data = [
             'name' => $this->request->getPost('name'),
             'username' => $this->request->getPost('username'),
-            'level' => $this->request->getPost('level')
+            'role_id' => $this->request->getPost('role_id')
         ];
 
         $this->validation->setRules([
@@ -100,7 +103,7 @@ class User extends BaseController
     public function getEditById()
     {
         $id = $this->request->getPost('id');
-        $user = $this->userModel->find($id);
+        $user = $this->userModel->select('users.id, name, username, password, is_active, role_id, role_name')->join('roles', 'users.role_id = roles.id')->find($id);
 
         return json_encode($user);
     }

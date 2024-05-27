@@ -20,8 +20,8 @@ class Item extends BaseController
 
     public function index()
     {
-        $level = session()->get('level');
-        if ($level != 'admin' && $level != 'superadmin') {
+        $role_id = session()->get('role_id');
+        if ($role_id != 2 && $role_id != 1) {
             return redirect()->back();
         }
 
@@ -37,6 +37,11 @@ class Item extends BaseController
 
     public function form_add()
     {
+        $role_id = session()->get('role_id');
+        if ($role_id != 2 && $role_id != 1) {
+            return redirect()->back();
+        }
+
         $data = [
             'title' => 'Form Tambah Item | HFD APP',
             'category_options' => $this->categoryModel->findAll(),

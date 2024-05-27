@@ -23,13 +23,12 @@ class CreateUsersTable extends Migration
                 'type'       => 'CHAR',
                 'constraint' => '60',
             ],
-            'level' => [
-                'type'       => 'VARCHAR',
-                'constraint' => '20',
-            ],
             'is_active' => [
                 'type'       => 'BOOLEAN',
                 'default'    => '1',
+            ],
+            'role_id' => [
+                'type'       => 'INT',
             ],
             'created_at' => [
                 'type' => 'TIMESTAMP',
@@ -40,6 +39,7 @@ class CreateUsersTable extends Migration
                 'default' => new RawSql('CURRENT_TIMESTAMP'),
             ],
         ]);
+        $this->forge->addForeignKey('role_id', 'roles', 'id');
         $this->forge->createTable('users');
     }
 

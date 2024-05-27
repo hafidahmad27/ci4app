@@ -19,14 +19,14 @@
                 <tbody>
                     <?php $no = 1;
                     foreach ($users as $user) : ?>
-                        <?php if ($user['level'] != 'superadmin') : ?>
+                        <?php if ($user['role_id'] != 1) : ?>
                             <tr class="<?= $user['is_active'] != 0 ? '' : 'bg-dark'; ?>">
                                 <td><?= $no++ ?></td>
                                 <td>
-                                    <?php if ($user['level'] == 'admin') : ?>
-                                        <?= $user['name']; ?> <span class="badge badge-info"><?= strtoupper($user['level']) ?></span>
-                                    <?php elseif ($user['level'] == 'pimpinan') : ?>
-                                        <?= $user['name']; ?> <span class="badge badge-secondary"><?= strtoupper($user['level']) ?></span>
+                                    <?php if ($user['role_id'] == 2) : ?>
+                                        <?= $user['name']; ?> <span class="badge badge-info"><?= strtoupper($user['role_name']) ?></span>
+                                    <?php elseif ($user['role_id'] == 3) : ?>
+                                        <?= $user['name']; ?> <span class="badge badge-secondary"><?= strtoupper($user['role_name']) ?></span>
                                     <?php endif ?>
                                 </td>
                                 <td><?= $user['username']; ?></td>
@@ -52,7 +52,7 @@
                                             <button type="submit" class="btn btn-outline-light btn-sm"><i class="fas fa-toggle-off"></i></button>
                                         <?php } ?>
                                     </form>
-                                    <?php if (session()->get('level') == 'superadmin') : ?>
+                                    <?php if (session()->get('role_id') == 1) : ?>
                                         <form action="<?= url_to('backend.user.delete'); ?>" method="post" class="d-inline"> |
                                             <?= csrf_field(); ?>
                                             <input type="hidden" name="id" value="<?= $user['id'] ?>">
@@ -88,12 +88,11 @@
                         <input type="text" name="username" maxlength="25" class="form-control" placeholder="Username.." required>
                     </div>
                     <div class="form-group col-md-5">
-                        <label>Level</label>
-                        <select name="level" class="form-control" autofocus required>
-                            <!-- level maxlength: 20 -->
-                            <option value="" selected="selected" disabled="disabled">Pilih..</option>
-                            <option value="admin">ADMIN</option>
-                            <option value="pimpinan">PIMPINAN</option>
+                        <label>Role</label>
+                        <select name="role_id" class="form-control" required>
+                            <?php foreach ($role_options as $role_option) : ?>
+                                <option value="<?= $role_option['id']; ?>"><?= strtoupper($role_option['role_name']); ?></option>
+                            <?php endforeach; ?>
                         </select>
                     </div>
                 </div>
@@ -127,12 +126,11 @@
                             <input type="text" id="username" name="username" maxlength="25" class="form-control" placeholder="Username.." required>
                         </div>
                         <div class="form-group col-md-5">
-                            <label>Level</label>
-                            <select id="level" name="level" class="form-control" required>
-                                <!-- level maxlength level: 20 character -->
-                                <option value="" selected="selected" disabled="disabled">Pilih..</option>
-                                <option value="admin">ADMIN</option>
-                                <option value="pimpinan">PIMPINAN</option>
+                            <label>Role</label>
+                            <select id="role_id" name="role_id" class="form-control" required>
+                                <?php foreach ($role_options as $role_option) : ?>
+                                    <option value="<?= $role_option['id']; ?>"><?= strtoupper($role_option['role_name']); ?></option>
+                                <?php endforeach; ?>
                             </select>
                         </div>
                     </div>

@@ -9,8 +9,8 @@ class Report extends BaseController
 {
     public function a_reports()
     {
-        $level = session()->get('level');
-        if ($level != 'pimpinan' && $level != 'superadmin') {
+        $role_id = session()->get('role_id');
+        if ($role_id != 3 && $role_id != 1) {
             return redirect()->back();
         }
 
@@ -24,8 +24,8 @@ class Report extends BaseController
 
     public function b_reports()
     {
-        $level = session()->get('level');
-        if ($level != 'pimpinan' && $level != 'superadmin') {
+        $role_id = session()->get('role_id');
+        if ($role_id != 3 && $role_id != 1) {
             return redirect()->back();
         }
 

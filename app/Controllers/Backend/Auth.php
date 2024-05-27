@@ -28,7 +28,7 @@ class Auth extends BaseController
     {
         $username = $this->request->getPost('username');
         $password = $this->request->getVar('password');
-        $user = $this->userModel->where('username', $username)->first();
+        $user = $this->userModel->select('users.id, name, username, password, role_id, is_active, role_name')->join('roles', 'users.role_id = roles.id')->where('username', $username)->first();
 
         if ($user) {
             if ($user['is_active'] == 1) {
@@ -38,7 +38,8 @@ class Auth extends BaseController
                         'name' => $user['name'],
                         'username' => $user['username'],
                         'password' => $user['password'],
-                        'level' => $user['level']
+                        'role_id' => $user['role_id'],
+                        'role_name' => $user['role_name']
                     ];
                     session()->set($data);
                     return redirect()->route('backend.dashboard.view');

@@ -18,8 +18,8 @@ class Category extends BaseController
 
     public function index()
     {
-        $level = session()->get('level');
-        if ($level != 'admin' && $level != 'superadmin') {
+        $role_id = session()->get('role_id');
+        if ($role_id != 2 && $role_id != 1) {
             return redirect()->back();
         }
 

@@ -25,7 +25,7 @@ class UserLoggedIn implements FilterInterface
      */
     public function before(RequestInterface $request, $arguments = null)
     {
-        if (session()->get('level')) {
+        if (session()->get('role_id')) {
             return redirect()->back();
         }
     }

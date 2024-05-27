@@ -29,7 +29,7 @@
                             <td align="justify"><?= $item['description']; ?></td>
                             <td width="12%" align="center">
                                 <button type="button" class="btn btn-primary btn-sm btnEditItem" data-id="<?= $item['id'] ?>" data-toggle="modal" data-target="#staticBackdrop"><i class=" nav-icon fas fa-edit"></i></button>
-                                <?php if (session()->get('level') == 'superadmin') : ?>
+                                <?php if (session()->get('role_id') == 1) : ?>
                                     <form action="<?= url_to('backend.item.delete'); ?>" method="post" class="d-inline"> |
                                         <?= csrf_field(); ?>
                                         <input type="hidden" name="id" value="<?= $item['id'] ?>">
